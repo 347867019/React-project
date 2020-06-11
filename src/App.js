@@ -14,14 +14,32 @@ class Box extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      lists: [0,0,0,0,0,0,0,-1,1]
+      lists: [-1,-1,-1,-1,-1,-1,-1,-1,-1],
+      item: false
     }
+    this.clicklattice = this.clicklattice.bind(this)
+  }
+  clicklattice(index){
+    console.log(index)
+    console.log(this)
+    // console.log(this.state.lists[index] === -1)
+    if(this.state.lists[index] !== -1)return true
+    const lists = this.state.lists
+    if(this.state.item){
+      lists[index] = 0
+    }else{
+      lists[index] = 1
+    }
+    this.setState({
+      lists: lists,
+      item: !this.state.item
+    })
   }
   render(){
     return(
       <div className="box">
-        {this.state.lists.map((item) => 
-          <Lattice act={item}/>
+        {this.state.lists.map((item, index) => 
+          <Lattice act = {item} ind = {index} key = {index} clicklattice={this.clicklattice}/>
         )}
       </div>
     )
@@ -33,8 +51,9 @@ class Lattice extends React.Component {
     this.state = {}
   }
   render() {
+    const index = this.props.ind
     return(
-      <div className="lattice">{this.props.act==-1?'':this.props.act==0?'X':this.props.act==1?'O':''}</div>
+    <div className="lattice" onClick={() => this.props.clicklattice(index)}>{this.props.act === -1?'':this.props.act === 0?'X':this.props.act === 1?'O':''}</div>
     )
   }
 }
