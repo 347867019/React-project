@@ -15,14 +15,16 @@ class Box extends React.Component {
     super(props)
     this.state = {
       lists: [-1,-1,-1,-1,-1,-1,-1,-1,-1],
+      history:[],
       item: false
     }
     this.clicklattice = this.clicklattice.bind(this)
   }
   clicklattice(index){
-    console.log(index)
-    console.log(this)
+    // console.log(index)
+    // console.log(this)
     // console.log(this.state.lists[index] === -1)
+    // console.log(this.state.history)
     if(this.state.lists[index] !== -1)return true
     const lists = this.state.lists
     if(this.state.item){
@@ -30,10 +32,23 @@ class Box extends React.Component {
     }else{
       lists[index] = 1
     }
+    const history = this.state.history
+    history.push([...lists])
     this.setState({
       lists: lists,
-      item: !this.state.item
+      item: !this.state.item,
+      history: [...history]
     })
+  }
+  fallback(index){
+    console.log(this.state.history)
+    const lists = this.state.history[index]
+    this.setState({
+      lists: lists,
+      item: index%2 === 0,
+      history: this.state.history.slice(0,index+1)
+    })
+    // console.log(lists)
   }
   render(){
     return(
@@ -41,6 +56,11 @@ class Box extends React.Component {
         {this.state.lists.map((item, index) => 
           <Lattice act = {item} ind = {index} key = {index} clicklattice={this.clicklattice}/>
         )}
+        <div>
+          {this.state.history.map((item, index) => 
+            <div key={index} onClick={this.fallback.bind(this, index)}>{index%2 === 0?'O执行完成，请X开始下棋':'X执行完成，请O开始下棋'}</div>
+        )}
+        </div>
       </div>
     )
   }
