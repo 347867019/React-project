@@ -32,6 +32,7 @@ class Box extends React.Component {
     this.clicklattice = this.clicklattice.bind(this)
   }
   clicklattice(index){
+    if(this.state.win !== false) return
     // console.log(index)
     // console.log(this)
     // console.log(this.state.lists[index] === -1)
@@ -74,7 +75,8 @@ class Box extends React.Component {
     this.setState({
       lists: [...lists],
       item: index%2 === 0,
-      history: this.state.history.slice(0,index+1)
+      history: this.state.history.slice(0,index+1),
+      win: false
     })
     // console.log(lists)
   }
@@ -86,7 +88,7 @@ class Box extends React.Component {
         )}
         <div>
           {this.state.history.map((item, index) => 
-            <div key={index} onClick={this.fallback.bind(this, index)}>{index%2 === 0?'O执行完成，请X开始下棋':'X执行完成，请O开始下棋'}</div>
+            <div className="item" key={index} onClick={this.fallback.bind(this, index)}>{index%2 === 0?'O执行完成，请X开始下棋':'X执行完成，请O开始下棋'}</div>
         )}
         <div>{this.state.win === 1 ? 'O win' : ''}</div>
         <div>{this.state.win === 0 ? 'X win' : ''}</div>

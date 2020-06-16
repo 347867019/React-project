@@ -25,9 +25,17 @@
 }
 .box {
   width: 300px;
-  height:300px;
+  height:auto;
   display: flex;
   flex-wrap: wrap;
+}
+.item {
+  font-size: 16px;
+  border: 1px solid;
+  border-radius: 5px;
+  background: #0000008f;
+  margin: 5px;
+  padding: 0 5px;
 }
 .lattice{
   width:100px;
